@@ -1,0 +1,1 @@
+piénselo como tener if d < 10 ** (-15): break 
