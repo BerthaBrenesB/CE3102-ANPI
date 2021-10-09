@@ -4,8 +4,11 @@
 # Tener instalado los paquetes de numpy y matplotlib
 # correr el archivo como python3 bisección 
 import sympy as sp 
+from sympy import *
 import numpy as np
 import matplotlib.pyplot as plt
+import math
+from math import e
 
 # Se definen las entradas que en este caso
 # tol = es la entrada correspondiente a la tolerancia que tendra el sistema
@@ -20,7 +23,7 @@ def biseccion(f, a, b, tol, iterMax):
 # Esta funcion nos va a dar la aproximación de soluciones a una ecuacion 
 # f(x) usando el método de la bisección
     x = sp.Symbol('x') # Define del texto x a simbólico
-    f1 = sp.sympify(f) # Método Symbol que convierte el texto a simbolico
+    f1 = f # Método Symbol que convierte el texto a simbolico
     er = [] # Array de valores de error
     xk = 0 # Variable que va a contener el calculo de valor de x
     k = 0 # Variable que va a las iteraciones del método
@@ -53,10 +56,11 @@ def biseccion(f, a, b, tol, iterMax):
         err ="NA"
         print('Intervalo seleccionado no cumple con la funcion de bolsano')
 # Calculo de la funcion f(x)=exp(x)-x-2
-f = 'exp(x)-x-2'
+x = sp.Symbol('x')
+f = 2 + cos(e**x -2) -e**x
 a = 0
 b = 2
-tol = 10^-4
-iterMax = 100
+tol = 10**-4
+iterMax = 10
 y = biseccion(f, a,b,tol,iterMax)
 print(y)

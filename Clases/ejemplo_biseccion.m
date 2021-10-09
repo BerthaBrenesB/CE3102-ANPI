@@ -11,14 +11,14 @@ function ejemplo_biseccion()
  % Concluimos que la funcion tiene un 0 en el intervalo [2,4] a partir de la grafica
  %Cadeba de caracteres
  %f = 'exp(x) -2*x-10 ';
- f= '2.^-x';
+ f= '2 + cos(e**x -2) -e**x';
  %Extreo a y b
- a = 1000;
- b = 900;
+ a = 1;
+ b = 9;
  %tol un numero positivo que representa la toletacion
  tol = 10^-5;
  % Cantidad de iteraciones maximas
- iterMax = 1000;
+ iterMax = 10;
  %Retorno con los variables de salida
  [xk k error] = biseccion(f,a,b,tol, iterMax)
  
@@ -50,11 +50,11 @@ function [xk k error] = biseccion(f,a,b,tol,iterMax)
   %%% Cargar el paquete symbolic
   pkg load symbolic
   f1 = matlabFunction(sym(f));
-  if f1(a)*f1(b)<0
+  if f1(x,a)*f1(x,b)<0
     %se cumple el teorema de bolzano
     for k=1:iterMax
       xk=(a+b)/2; %Tenemos 2 intervales: [a xk] y [xk b]
-      if f1(a)*f1(xk)<0 %Se cumple la condicion en el intervalo 1
+      if f1(x,a)*f1(x,xk)<0 %Se cumple la condicion en el intervalo 1
         b=xk;
       else % Se cumple la condicion en el intervalo 2
         a=xk; 

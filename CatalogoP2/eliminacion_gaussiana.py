@@ -55,8 +55,11 @@ def gaussiana(A, b):
 
 
 
-A= np.matrix('2 -6 12 16; 1 -2 6 6;-1 3 -3 -7;0 4 3 -6'); #Matriz 4x4
-b= np.matrix('70; 26; -30;-26');
+#A= np.matrix('3 3 1; 1 2 1; 3 2 2'); #Matriz 4x4
+#A= np.matrix('2 1 2; 3 4 2; 4 4 2'); #Matriz 4x4
+#A= np.matrix('2 1 2; 1 2 1; 1 1 2'); #Matriz 4x4
+A= np.matrix('6 5 6;4 3 4;8 6 8'); #Matriz 4x4
+b= np.matrix('70; 26; -30');
 n =4
 print(gaussiana(A,b))
 
@@ -65,3 +68,4 @@ print(gaussiana(A,b))
 #print(B)
 #[s] = paso_atras(a,B,n)
 #print(s)
+np.matrix('3.0 -4.0 1.0;0.0 2.333 0.66;0.0 0.0 -5.714')
