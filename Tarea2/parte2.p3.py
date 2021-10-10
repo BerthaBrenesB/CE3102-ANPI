@@ -134,13 +134,14 @@ def newton_raphson(x0,f,v,tol,iterMax):
         for i in range(0,n):  
             f1 = sp.sympify(f[i])
             for j in range(0,m): # Variables
-                print(v[j], xk[j])
                 f1 = f1.subs(v[j],xk[j]) # Calculo de fx con la evaluacion de x0 con respecto a la variable
-            print(f1)
+
             fx.append(float(f1))
         Jk = np.zeros((n,m)) # Matriz de jacobiana
         for j in range(0,len(df)):
             for i in range(0,m):
+                #print(df[j][i])
+                #print(type(df[j][i]) )
                 if(type(df[j][i]) != int): # se calcula si el val9or de la funcion derivada es un entero y por lo tanto no se evalua
                     Jk[j,i] = df[j][i].subs(v[i],xk[i]) # se evalua en la diferencial el valor inicial
                 else:
@@ -171,5 +172,38 @@ x = sp.Symbol('x')
 y = sp.Symbol('y')
 z = sp.Symbol('z')
 v = (x,y,z)
-
 print(newton_raphson(x0,A,v,10**-5,10))
+
+
+tol = 10**(-10)
+itermax = 500
+var1 = ["x1","x2"]
+f1 = ["exp(x1^2)-exp(sqrt(2)*x1)","x1-x2"]
+f1x0 =(2.3,2.3)
+#print(newton_raphson(f1x0,f1,var1,tol,itermax))
+
+
+f2 = ["x1+exp(x2)-cos(x2)","3*x1-x2-sin(x2)"]
+f2x0 = (1.5,2)
+#print(newton_raphson(f2x0,f2,var1,tol,itermax))
+
+
+f3 = ["x1^2-2*x1-x2+0.5","x1^2+4*x2^2-4"]
+f3x0 = (3,2)
+#print(newton_raphson(f3x0,f3,var1,tol,itermax))
+
+
+f4 = ["x1^2+x2^2-1","x1^2-x2^2+0.5"]
+f4x0 = (0.7,1.2)
+#print(newton_raphson(f4x0,f4,var1,tol,itermax))
+
+
+f5 = ["sin(x1)+x2*cos(x1)","x1-x2"]
+f5x0 = (1.2,-1.5)
+#print(newton_raphson(f5x0,f5,var1,tol,itermax))
+
+f6 = ["x2*x3+x4*(x2+x3)","x1*x3+x4*(x1+x3)","x1*x2+x4*(x1+x2)","x1*x2+x1*x3+x2*x3-1"]
+f6x0 = [-1,-1,-1,-1]
+var6 = ["x1","x2","x3","x4"]
+#print(newton_raphson(f6x0,f6,var6,tol,itermax))
+
