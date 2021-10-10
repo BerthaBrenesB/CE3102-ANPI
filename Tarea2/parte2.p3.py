@@ -102,7 +102,6 @@ def hacia_Adelante(A, b, n):
     return soluciones
 
 
-
 # Calculo de xk por medio del metodo de Newton Rapshon
 # x0 es un vector con los valores iniciales
 # f es un vector de funciones 
@@ -113,15 +112,17 @@ def newton_raphson(x0,f,v,tol,iterMax):
     x = sp.Symbol('x')
     y = sp.Symbol('y')
     z = sp.Symbol('z')
-    xk = np.matrix(x0) # convertir el vector en una matriz fila
+    xk = np.transpose(np.matrix(x0)) # convertir el vector en una matriz fila
     n = len(f) # cantidad de funciones y numero de filas
     m = len(v) # Cantidad de variables y numero de columnas
     df = [] # variable para las funciones diferenciales
     err = [] # variable para los errores
+    f2 = []
     if(len(x0) != len(v)):
         raise ValueError('No coincide la cantidad de variables con el vector inicial')
     for i in range(0,n): # iteraciones con respecto a las funciones
         f1 = sp.sympify(f[i]) # Conversion de cada funcion
+        f2.append(f1)
         rows = [] #Crear las lista de filas
         for j in range(0,m): # iteracion de variables
             g = sp.diff(f1,v[j]) # Calculo de la derivada de la funcion 
@@ -129,26 +130,31 @@ def newton_raphson(x0,f,v,tol,iterMax):
         df.append(rows) # creacion de la matriz con derivadas
     for item in range(0,iterMax): # Calculo de iteraciones
         fx = [] # variable para el valor de fx
+        print(item)
         for i in range(0,n):  
             f1 = sp.sympify(f[i])
             for j in range(0,m): # Variables
-                f1 = sp.N(f1.subs(v[j],x0[j])) # Calculo de fx con la evaluacion de x0 con respecto a la variable
-            fx.append(f1)
+                print(v[j], xk[j])
+                f1 = f1.subs(v[j],xk[j]) # Calculo de fx con la evaluacion de x0 con respecto a la variable
+            print(f1)
+            fx.append(float(f1))
         Jk = np.zeros((n,m)) # Matriz de jacobiana
         for j in range(0,len(df)):
             for i in range(0,m):
                 if(type(df[j][i]) != int): # se calcula si el val9or de la funcion derivada es un entero y por lo tanto no se evalua
-                    Jk[j,i] = sp.N(df[j][i].subs(v[i],x0[i])) # se evalua en la diferencial el valor inicial
+                    Jk[j,i] = df[j][i].subs(v[i],xk[i]) # se evalua en la diferencial el valor inicial
                 else:
                     Jk[j,i] = df[j][i] # se coloca el valor de la derivada 
         fx = np.matrix(fx)
         b = np.transpose(fx)
         y = fact_lu(Jk,b) # Calculo de y por medio del metodo LU
-        xk_1 = np.transpose(xk) - y
-        error = np.linalg.norm(xk) # calculo del error
+        xk = xk - y
+        print(xk)
+        error = np.linalg.norm(np.linalg.norm(fx)) # calculo del error
         err.append(error)
-        if(np.linalg.norm(xk)< tol): # Calculo de la tolerancia del error
+        if(np.linalg.norm(fx)< tol): # Calculo de la tolerancia del error
             break
+        
     # Grafica del error contra las iteraciones
     plt.rcParams.update({'font.size':14})
     ejex = np.arange(0, item+1)
@@ -157,7 +163,7 @@ def newton_raphson(x0,f,v,tol,iterMax):
     plt.ylabel('$|f(x_k)|$')
     plt.title('Metodo de Newton Raphson Iteraciones vrs Error)')
     plt.show()
-    return [xk_1,item,error]
+    return [xk,item,error]
 
 A = ('3*x**2 -4*y + z**2','x**2 +y**2+z**2 -1','2*x**2 + y**2 -4*z')
 x0 = (0.5,0.5,0.5)
