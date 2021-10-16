@@ -175,27 +175,29 @@ v = (x,y,z)
 print(newton_raphson(x0,A,v,10**-5,10))
 
 
+### PARTE 3
+
 tol = 10**(-10)
 itermax = 500
 var1 = ["x1","x2"]
 f1 = ["exp(x1^2)-exp(sqrt(2)*x1)","x1-x2"]
 f1x0 =(2.3,2.3)
-#print(newton_raphson(f1x0,f1,var1,tol,itermax))
+print(newton_raphson(f1x0,f1,var1,tol,itermax))
 
 
 f2 = ["x1+exp(x2)-cos(x2)","3*x1-x2-sin(x2)"]
 f2x0 = (1.5,2)
-#print(newton_raphson(f2x0,f2,var1,tol,itermax))
+print(newton_raphson(f2x0,f2,var1,tol,itermax))
 
 
 f3 = ["x1^2-2*x1-x2+0.5","x1^2+4*x2^2-4"]
 f3x0 = (3,2)
-#print(newton_raphson(f3x0,f3,var1,tol,itermax))
+print(newton_raphson(f3x0,f3,var1,tol,itermax))
 
 
 f4 = ["x1^2+x2^2-1","x1^2-x2^2+0.5"]
 f4x0 = (0.7,1.2)
-#print(newton_raphson(f4x0,f4,var1,tol,itermax))
+print(newton_raphson(f4x0,f4,var1,tol,itermax))
 
 
 f5 = ["sin(x1)+x2*cos(x1)","x1-x2"]
