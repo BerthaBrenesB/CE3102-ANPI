@@ -32,28 +32,32 @@ def dd_newton(xk, yk):
     poli_inter = expand(poli_inter)
     return poli_inter
 
-
-def runge_kutta_4(f,intervalo, h):
+# Metodo de Runge-Kutta para aproximar la solucion de un problema de valor inicial
+# f -> string con la funcion que se debe evaluar
+# intervalo ->Valor del rango donde se evaluara el metodo
+# h => funcion de h ya calculada y0 -> valor incial de y 
+# La salida es Pares -> Pares x y, poli -> polinomio de interpolacion es tipo symboli
+def runge_kutta_4(f,intervalo, h,y0):
     x = Symbol('x') #Inicializa "x" como la variable de la funcion a ingresar
     f = sympify(f) #Se traduce la funcion tipo string a una aritmetica
-    a = intervalo[0]
-    b = intervalo[1]
-    nump = (b-a)/h
+    a = intervalo[0] # determino a
+    b = intervalo[1] # determino b
+    nump = (b-a)/h # Determino el numero de puntos
     xv = linspace(a,b,int(nump)+1) # crear un vector column con u valor inicial a y un vector final b cada h espacios
-    yv = [0.5]
+    yv = [y0] # creo el vecto de y con el valor inical
     for n in range(0,int(nump)):
-            k1 = f.subs(x,xv[n])
-            k1 = k1.subs('y', yv[n])
-            k2 = f.subs(x,xv[n]+ h/2)
-            k2 = k2.subs('y',yv[n] + h*(k1/2))
-            k3 = f.subs(x,xv[n]+ h/2)
-            k3 = k3.subs('y',yv[n]+ h*(k2/2))
-            k4 = f.subs(x,xv[n]+ h)
-            k4 = k4.subs('y', yv[n] + h*k3)
-            y = yv[n] +(h/6)*(k1 + 2*k2 + 2*k3 + k4);
-            yv.append(y);
+            k1 = f.subs(x,xv[n]) # inicializo el valor de K1 y en evualo en x
+            k1 = k1.subs('y', yv[n]) # Evalueo en y
+            k2 = f.subs(x,xv[n]+ h/2) # inicializo el valor de K2 y en evualo en x
+            k2 = k2.subs('y',yv[n] + h*(k1/2)) # Evalueo en y
+            k3 = f.subs(x,xv[n]+ h/2) # inicializo el valor de K3 y en evualo en x
+            k3 = k3.subs('y',yv[n]+ h*(k2/2)) # Evalueo en y
+            k4 = f.subs(x,xv[n]+ h) # inicializo el valor de K4 y en evualo en x
+            k4 = k4.subs('y', yv[n] + h*k3) # Evalueo en y
+            y = yv[n] +(h/6)*(k1 + 2*k2 + 2*k3 + k4); # determino y evaluo en x el valor de yk+1
+            yv.append(y);# concateno el valor a y
     
-    poli_inter = dd_newton(xv,yv);
+    poli_inter = dd_newton(xv,yv);  # determino el valor del polinomio
     plt.rcParams.update({'font.size':14})
     plt.plot(xv,yv, marker='o',color='red')
     plt.xlabel('Polinomio de interpolacion')
@@ -61,4 +65,4 @@ def runge_kutta_4(f,intervalo, h):
     plt.show()
     return [yv,xv], poli_inter
 
-print(runge_kutta_4('-x*y + 4*x/y',[0,1],0.1))
+print(runge_kutta_4('-x*y + 4*x/y',[0,1],0.1,1))

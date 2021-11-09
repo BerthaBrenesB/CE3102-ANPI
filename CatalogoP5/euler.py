@@ -8,9 +8,9 @@ import matplotlib.pyplot as plt
 # puntos:una matriz mx2 donde la column 1 son los valores de x 
 # Y la columna 2 son los valores de y
 def dd_newton(xk, yk):
-    xk = np.matrix(xk)
-    yk = np.matrix(yk)
-    [m1, m2] = xk.shape
+    xk = np.matrix(xk) # Creo una matriz a partir de los valores de xk
+    yk = np.matrix(yk) # Creo una matriz a partir de los valores de yk
+    [m1, m2] = xk.shape # Determino el tamaño de la matriz
     [n1,n2] = yk.shape
     if m1 != n1: # Comprueba las lista de pares ordenados
         raise ValueError('No son pares ordenados')
@@ -31,25 +31,28 @@ def dd_newton(xk, yk):
         yk = nuev2
     poli_inter = expand(poli_inter)
     return poli_inter
-
-def euler(f, intervalo, h):
+# Funcion que realiza el metodo de euler
+# f -> funcion a evaluar, intervalo ->Valor del rango donde se evaluara el metodo
+# h => funcion de h ya calculada y0 valor incial de y 
+# La salida es Pares -> Pares x y, poli -> polinomio de interpolacion es tipo symboli
+def euler(f, intervalo, h,y0):
     x = Symbol('x') #Inicializa "x" como la variable de la funcion a ingresar
     f = sympify(f) #Se traduce la funcion tipo string a una aritmetica
-    a = intervalo[0]
-    b = intervalo[1]
-    nump = (b-a)/h
+    a = intervalo[0] # determino a
+    b = intervalo[1] # determino b
+    nump = (b-a)/h # Determino el numero de puntos
     xv = linspace(a,b,int(nump)) # crear un vector column con u valor inicial a y un vector final b cada h espacios
-    yv = [0.5]
-    for n in range(0,int(nump)-1):
-            y = yv[n] +h*f.subs(x,xv[n])
-            y = y.subs('y', yv[n])
-            yv.append(y);
-    poli_inter = dd_newton(xv,yv);
+    yv = [y0] # creo el vecto de y con el valor inical
+    for n in range(0,int(nump)-1): 
+            y = yv[n] +h*f.subs(x,xv[n]) # determino el calculo de yk+1 y  evaluo x en la funcion
+            y = y.subs('y', yv[n])  # evaluo y en la funciono
+            yv.append(y); # concateno el valor a y
+    poli_inter = dd_newton(xv,yv); # determino el valor del polinomio
     plt.rcParams.update({'font.size':14})
     plt.plot(xv,yv, marker='o',color='red')
     plt.xlabel('Polinomio de interpolacion')
     plt.ylabel('intervalo')
-    plt.show()
+    plt.show() 
     return [yv,xv],poli_inter
             
-print(euler('y-x^2+1',[0,5],0.5))
+print(euler('y-x^2+1',[0,5],0.5,0.5))
