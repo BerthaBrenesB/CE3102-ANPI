@@ -27,7 +27,9 @@ def lagrange(xk,yk):
     return poly
 
 xk = '-2; 0; 1';
+xk_5 = '0; 2; 4;6;8';
 yk = '0; 1; -1';
-p = lagrange(xk, yk);
+yk_5 = '-0.2; -0.6; -1.4;-3;-6.2';
+p = lagrange(xk_5, yk_5);
 print(p)
         

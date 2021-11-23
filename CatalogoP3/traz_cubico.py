@@ -19,6 +19,11 @@ def traz_cubico(Xk, Yk):
                             # del trazador)
         h[i] = Xk[i + 1] - Xk[i]
 
+    u = np.zeros(n-2) # Vector de variables u
+
+    for i in range(0, n-2): #Calculo del vector u
+        u[i] = 6*(((Yk[i+2]-Yk[i+1])/h[i+1])-((Yk[i+1]-Yk[i])/h[i]))
+
     A = np.zeros((n-2,n-2)) #Matriz tridiagonal
 
     A[0][0] = 2*(h[0]+h[1]) #Calculo de la primer fila de la matriz n-1xn-1
@@ -32,11 +37,7 @@ def traz_cubico(Xk, Yk):
     A[n-3][n-4] = h[n-3]  #Calculo de la posicion n-1 de la matriz
     A[n-3][n-3] = 2*(h[n-3] + h[n-2])
 
-    u = np.zeros(n-2) # Vector de variables u
-
-    for i in range(0, n-2): #Calculo del vector u
-        u[i] = 6*(((Yk[i+2]-Yk[i+1])/h[i+1])-((Yk[i+1]-Yk[i])/h[i]))
-
+  
     M_temp = thomas(A,u) #Implementacion del metodo de Thomas para resolver
                          #El sistema Ax=U
     M = np.zeros(n)
